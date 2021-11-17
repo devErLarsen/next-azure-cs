@@ -10,8 +10,10 @@ export default function Face() {
         <div className="bg-white dark:bg-gray-800 h-screen 
         flex justify-center items-center flex-col gap-7">
             <Nav />
-            <AddPhoto text="Add Reference Photo"/>
-            <AddPhoto text="Photo to Face API"/>
+            <div className="flex flex-row gap-3">
+                <AddPhoto text="Add Reference Photo"/>
+                <AddPhoto text="Photo to Face API"/>
+            </div>
         </div>
     )
 }
