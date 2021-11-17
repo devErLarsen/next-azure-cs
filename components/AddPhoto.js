@@ -1,8 +1,15 @@
 import { Dialog, Transition } from '@headlessui/react'
+import axios from 'axios'
 import { Fragment, useCallback, useRef, useState } from 'react'
 import Webcam from 'react-webcam'
 
-export default function MyModal({text}) {
+const videoConstraints = {
+  width: 1980,
+  height: 1080,
+  facingMode: "user"
+};
+
+export default function MyModal({ setLoading, setResultImage, text, storage }) {
   let [isOpen, setIsOpen] = useState(false)
   const webcamRef = useRef(null)
 
@@ -16,16 +23,45 @@ export default function MyModal({text}) {
 
   const capture = useCallback(
     async () => {
-    // setImageSrc(webcamRef.current.getScreenshot())
-    // console.log(webcamRef.current.getScreenshot())
-    // const blob = await fetch(webcamRef.current.getScreenshot()).then((res) => res.blob());
-    // const blob = await dataUrlToFile(webcamRef.current.getScreenshot())
-    const fullString = webcamRef.current.getScreenshot()
+
+      // setLoading(true)
+    
+      const fullString = webcamRef.current.getScreenshot({
+        width: 1920,
+        height: 1080
+      })
+
+      const dataString = fullString.split(',')[1]
+
+      if (storage) {
+        // console.log("hallooooo")
+        const res = await axios.post('/api/uploadPicture', { dataString })
+        console.log(res.data)
+
+      } else {
+
+        try {
+          const getImages = await axios.get('/api/uploadPicture')
+
+          const images = getImages.data
+
+          const res = await axios.post('/api/face', {
+              capture: dataString,
+              images: images
+          })
+          
+          setResultImage(res.data)
+          
+          // console.log("?????")
+
+        } catch(error) {
+          alert(error.response.data)
+        }
+        
+      }
 
     
-
-    
-
+      setLoading(false)
     
     
     
@@ -91,19 +127,22 @@ export default function MyModal({text}) {
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <Dialog.Title
+                {/* <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
                   Add a reference photo of you to the Azure Face API
-                </Dialog.Title>
+                </Dialog.Title> */}
                 <div className="mt-2">
                     <Webcam
                         audio={false}
-                        height={1920}
+                        // height={1920}
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
-                        width={1080}
+                        screenshotQuality={1}
+                        // forceScreenshotSourceSize={true}
+                        // width={1080}
+                        videoConstraints={videoConstraints}
                         // videoConstraints={videoConstraints}
                     />
                 </div>
@@ -112,7 +151,11 @@ export default function MyModal({text}) {
                   <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={closeModal}
+                    onClick={() => {
+                      capture();
+                      closeModal();
+                      setLoading(true)
+                    }}
                   >
                     Take photo!
                   </button>

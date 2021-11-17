@@ -111,11 +111,6 @@ export default function Home() {
     setActiveMic(false)
   }
 
-  const faceAPI = async () => {
-    const res = await axios.post('/api/face')
-    console.log(res)
-  }
-
   return (
     <div className="bg-white dark:bg-gray-800 h-screen 
     flex justify-center items-center flex-col gap-7">
@@ -127,9 +122,6 @@ export default function Home() {
         </p>
         }
       </div>
-      {/* <WebcamCapture /> */}
-      {openModal && <Modal setOpenModal={setOpenModal}/>}
-      <button onClick={() => setOpenModal(true)}>open</button>
       <Microphone micFunction={stt} activeMic={activeMic} />
       <textarea className="text-gray-900 dark:text-white
       bg-gray-100 dark:bg-gray-700 resize-none border-md rounded-lg
@@ -144,13 +136,6 @@ export default function Home() {
         onClick={() => bundleRequests()}
       >
         Analyze
-      </button>
-      <button className="bg-blue-500 hover:bg-blue-400 
-      text-gray-600 dark:text-white font-bold py-2 px-4 border-b-4 
-      border-blue-700 hover:border-blue-500 rounded"
-        onClick={() => faceAPI()}
-      >
-        Test FaceAPI
       </button>
       {/* <button onClick={() => testknapp()}>testknapp</button>   */}
       {!loading ?

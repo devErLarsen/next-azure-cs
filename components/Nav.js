@@ -10,7 +10,7 @@ export default function Nav() {
             <Link href='/'>
                 <a className="text-2xl text-gray-600 dark:text-white hover:opacity-50">Language</a>
             </Link>
-            <Link href='Face'>
+            <Link href='/Face'>
                 <a className="text-2xl text-gray-600 dark:text-white hover:opacity-50">Face</a>
             </Link>
             <span onClick={() => setTheme(colorTheme)} className="w-10 h-10 bg-blue-500 flex rounded-full 

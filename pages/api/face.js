@@ -71,7 +71,9 @@ export default async function handler(req, res) {
         })
 
         // console.log(sourceFace)
-        const sourceFaceId = sourceFace.data[0].faceId
+        const sourceFaceId = sourceFace.data[0]?.faceId
+        if (!sourceFaceId)
+            return res.status(400).json('found no face in submitted image')
 
         const match = await axios.post(`${process.env.ENDPOINT}face/v1.0/findsimilars`, {
             faceId: sourceFaceId,
@@ -88,6 +90,7 @@ export default async function handler(req, res) {
         const matchingPersonURL = targetFaces.filter(p => p.faceId === matchingPersonId)[0].imageURL
 
         console.log(matchingPersonURL)
+        res.status(200).json(matchingPersonURL)
         
        
 
