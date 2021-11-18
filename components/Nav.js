@@ -1,10 +1,11 @@
 import useDarkMode from "../hook/useDarkMode"
 import Link from 'next/link'
+import { useTheme } from "../context/ThemeContext"
 
 
 export default function Nav() {
 
-    const [colorTheme, setTheme] = useDarkMode()
+    const [colorTheme, setTheme] = useTheme()
     return (
         <div className="fixed top-0 w-full p-5 flex justify-end gap-6 border-b-2 dark:border-white border-blue-500 z-20">
             <Link href='/'>

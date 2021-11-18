@@ -6,6 +6,7 @@ import Nav from "../components/Nav"
 import getToken from '../utils/getToken'
 import WebcamCapture from '../components/WebcamCapture'
 import Modal from '../components/Modal'
+import Tabs from '../components/Tabs'
 const speechsdk = require('microsoft-cognitiveservices-speech-sdk')
 
 
@@ -13,7 +14,7 @@ const speechsdk = require('microsoft-cognitiveservices-speech-sdk')
 export default function Home() {
 
   const [input, setInput] = useState("")
-  const [output, setOutput] = useState([]) // change to translations
+  const [translations, setTranslations] = useState([]) // change to translations
   // const [english, setEnglish] = useState(false)
   const [sentiment, setSentiment] = useState("")
   const [keyPhrases, setKeyPhrases] = useState([])
@@ -41,7 +42,6 @@ export default function Home() {
       if (res.data === 'English')
         return true
     }
-    alert("Something went wrong when detecting language")
     return false
   }
 
@@ -50,7 +50,7 @@ export default function Home() {
     const res = await axios.post('/api/translate', {
       text: input
     })
-    setOutput(res.data[0].translations)
+    setTranslations(res.data[0].translations)
   }
 
   // request analytics (key phrase extraction and sentiment analysis)
@@ -73,6 +73,10 @@ export default function Home() {
       if (eng) {
         await translate()
         await analytics()
+      } else {
+        setLoading(false)
+        alert("This app only supports english!")
+        return
       }
     } catch (err) {
       console.log(err)
@@ -139,21 +143,21 @@ export default function Home() {
       </button>
       {/* <button onClick={() => testknapp()}>testknapp</button>   */}
       {!loading ?
-        <div>
-          {sentiment && <h2 className='text-2xl text-gray-900 dark:text-white mb-2'>
-            sentiment is <span className={colorSentiment()}>{sentiment}</span>
+        <div className='container mx-auto flex flex-col gap-4'>
+          {sentiment && <h2 className='text-2xl text-gray-900 dark:text-white'>
+            Sentiment is <span className={colorSentiment()}>{sentiment}</span>
           </h2>}
           {keyPhrases.length > 0 &&
             <div>
-              <h2 className='text-2xl text-gray-900 dark:text-white mb-2'>Key phrases are:</h2>
+              <h2 className='text-2xl text-gray-900 dark:text-white mb-2'>Key phrases:</h2>
               <p className='text-gray-900 dark:text-white'>{keyPhrases.join(' | ')}</p>
             </div>
           }
-          {output.length > 0 &&
+          {translations.length > 0 &&
             <div>
-              <h2 className='text-2xl text-gray-900 dark:text-white mb-2'>Translations</h2>
-              {output.map((l, i) => (
-                <p className='text-gray-900 dark:text-white' key={i}>{l.to}: {l.text}</p>
+              <h2 className='text-2xl text-gray-900 dark:text-white mb-2'>Translations:</h2>
+              {translations.map((l, i) => (
+                <p className='text-gray-900 dark:text-white' key={i}><b>{l.to}</b>: {l.text}</p>
               ))}
             </div>
           }
@@ -161,9 +165,16 @@ export default function Home() {
         :
         <div
           className="bg-gray-600 dark:bg-white flex space-x-2 p-6 rounded-full 
-          justify-center items-center animate-ping mt-10"
+          justify-center items-center animate-ping "
         />
       }
+      {/* <Tabs 
+        output={{
+          sentiment,
+          keyPhrases, 
+          translations
+        }}
+      /> */}
 
 
     </div>
