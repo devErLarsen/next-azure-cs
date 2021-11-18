@@ -26,12 +26,12 @@ export default function Home() {
 
   const [openModal, setOpenModal] = useState(false)
 
-  // useEffect(async () => {
-  //   console.log("HEI")
-  //   const tokenRes = await getToken()
-  //   if(tokenRes.authToken === null)
-  //     setErrorMessage("Something went wrong when trying to fetch authorization token")
-  // }, [])
+  useEffect(async () => {
+    console.log("HEI")
+    const tokenRes = await getToken()
+    if(tokenRes.authToken === null)
+      setErrorMessage("Something went wrong when trying to fetch authorization token")
+  }, [])
 
   // request check if input language is English, otherwise alert user that only english is accepted.
   const checkLanguage = async () => {
@@ -109,10 +109,9 @@ export default function Home() {
       if(result.reason === ResultReason.RecognizedSpeech) {
         text = result.text
       }
-
       setInput(text)
+      setActiveMic(false)
     })
-    setActiveMic(false)
   }
 
   return (
@@ -126,7 +125,7 @@ export default function Home() {
         </p>
         }
       </div>
-      <Microphone micFunction={stt} activeMic={activeMic} />
+      <Microphone micFunction={stt} activeMic={activeMic}/>
       <textarea className="text-gray-900 dark:text-white
       bg-gray-100 dark:bg-gray-700 resize-none border-md rounded-lg
       lg:w-1/2 w-10/12 h-32 px-6 pt-2"
@@ -136,14 +135,15 @@ export default function Home() {
       />
       <button className="bg-blue-500 hover:bg-blue-400 
       text-gray-600 dark:text-white font-bold py-2 px-4 border-b-4 
-      border-blue-700 hover:border-blue-500 rounded" disabled={loading && input.length > 2}
+      border-blue-700 hover:border-blue-500 rounded" disabled={input.length < 2}
+        hidden={loading}
         onClick={() => bundleRequests()}
       >
         Analyze
       </button>
       {/* <button onClick={() => testknapp()}>testknapp</button>   */}
       {!loading ?
-        <div className='container mx-auto flex flex-col gap-4'>
+        <div className='flex flex-col gap-4 justify-center text-center'>
           {sentiment && <h2 className='text-2xl text-gray-900 dark:text-white'>
             Sentiment is <span className={colorSentiment()}>{sentiment}</span>
           </h2>}
@@ -154,18 +154,18 @@ export default function Home() {
             </div>
           }
           {translations.length > 0 &&
-            <div>
+            <div className="">
               <h2 className='text-2xl text-gray-900 dark:text-white mb-2'>Translations:</h2>
               {translations.map((l, i) => (
-                <p className='text-gray-900 dark:text-white' key={i}><b>{l.to}</b>: {l.text}</p>
+                <p className='text-gray-900 dark:text-white text-justify ml-2' key={i}><b>{l.to}</b>: {l.text}</p>
               ))}
             </div>
           }
         </div>
         :
         <div
-          className="bg-gray-600 dark:bg-white flex space-x-2 p-6 rounded-full 
-          justify-center items-center animate-ping "
+          className="bg-gray-600 dark:bg-white flex p-6 rounded-full 
+          justify-center items-center animate-ping mt-12"
         />
       }
       {/* <Tabs 

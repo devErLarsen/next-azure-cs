@@ -13,7 +13,7 @@ export default async function getToken() {
             const region = res.data.region
             cookie.set('token', region + ':' + token, {maxAge: 540, path: '/', sameSite: 'strict'})
 
-            console.log('token fetched from next-api: ' + token)
+            console.log('token fetched from next-api')
             return { authToken: token, region: region }
         } catch(err) {
             // console.log(err.response.data);
@@ -21,7 +21,7 @@ export default async function getToken() {
             return { authToken: null};
         }
     } else {
-        console.log('Token fetched from cookie: ' + tokenFromCookie)
+        // console.log('Token fetched from cookie')
         const idx = tokenFromCookie.indexOf(':')
         return {
             authToken: tokenFromCookie.slice(idx + 1), 

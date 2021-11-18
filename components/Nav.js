@@ -7,7 +7,7 @@ export default function Nav() {
 
     const [colorTheme, setTheme] = useTheme()
     return (
-        <div className="fixed top-0 w-full p-5 flex justify-end gap-6 border-b-2 dark:border-white border-blue-500 z-20">
+        <div className="fixed top-0 w-full p-5 flex justify-end gap-6 border-b-2 border-blue-500 z-20">
             <Link href='/'>
                 <a className="text-2xl text-gray-600 dark:text-white hover:opacity-50">Language</a>
             </Link>
