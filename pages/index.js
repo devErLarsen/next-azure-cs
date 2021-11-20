@@ -4,9 +4,6 @@ import React, { useEffect, useState } from 'react'
 import Microphone from '../components/Microphone'
 import Nav from "../components/Nav"
 import getToken from '../utils/getToken'
-import WebcamCapture from '../components/WebcamCapture'
-import Modal from '../components/Modal'
-import Tabs from '../components/Tabs'
 const speechsdk = require('microsoft-cognitiveservices-speech-sdk')
 
 
@@ -14,8 +11,7 @@ const speechsdk = require('microsoft-cognitiveservices-speech-sdk')
 export default function Home() {
 
   const [input, setInput] = useState("")
-  const [translations, setTranslations] = useState([]) // change to translations
-  // const [english, setEnglish] = useState(false)
+  const [translations, setTranslations] = useState([])
   const [sentiment, setSentiment] = useState("")
   const [keyPhrases, setKeyPhrases] = useState([])
 
@@ -24,10 +20,7 @@ export default function Home() {
 
   const [errorMessage, setErrorMessage] = useState("")
 
-  const [openModal, setOpenModal] = useState(false)
-
   useEffect(async () => {
-    console.log("HEI")
     const tokenRes = await getToken()
     if(tokenRes.authToken === null)
       setErrorMessage("Something went wrong when trying to fetch authorization token")
