@@ -1,6 +1,7 @@
 import useDarkMode from "../hook/useDarkMode"
 import Link from 'next/link'
 import { useTheme } from "../context/ThemeContext"
+import Auth from './Auth'
 
 
 export default function Nav() {
@@ -8,6 +9,7 @@ export default function Nav() {
     const [colorTheme, setTheme] = useTheme()
     return (
         <div className="fixed top-0 w-full p-5 flex justify-end gap-6 border-b-2 border-blue-500 z-20">
+            <Auth />
             <Link href='/'>
                 <a className="text-2xl text-gray-600 dark:text-white hover:opacity-50">Language</a>
             </Link>
