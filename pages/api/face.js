@@ -56,7 +56,7 @@ export default async function handler(req, res) {
             }, {
                 headers: { 'content-type': 'application/json', 'Ocp-Apim-Subscription-Key': process.env.KEY2 }
             })
-            // console.log(x)
+            console.log(x)
 
             await sleep(1000)
             

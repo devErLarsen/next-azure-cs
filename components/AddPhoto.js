@@ -26,10 +26,7 @@ export default function MyModal({ setLoading, setResultImage, text, storage }) {
 
       // setLoading(true)
     
-      const fullString = webcamRef.current.getScreenshot({
-        width: 1920,
-        height: 1080
-      })
+      const fullString = webcamRef.current.getScreenshot()
 
       const dataString = fullString.split(',')[1]
 
