@@ -20,11 +20,11 @@ export default function Home() {
 
   const [errorMessage, setErrorMessage] = useState("")
 
-  useEffect(async () => {
-    const tokenRes = await getToken()
-    if(tokenRes.authToken === null)
-      setErrorMessage("Something went wrong when trying to fetch authorization token")
-  }, [])
+  // useEffect(async () => {
+  //   const tokenRes = await getToken()
+  //   if(tokenRes.authToken === null)
+  //     setErrorMessage("Something went wrong when trying to fetch authorization token")
+  // }, [])
 
   // request check if input language is English, otherwise alert user that only english is accepted.
   const checkLanguage = async () => {
@@ -108,68 +108,60 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 h-screen 
-    flex justify-center items-center flex-col gap-7">
+    <div className="bg-white dark:bg-gray-800 min-h-screen">
       <Nav />
-      <div className='container mx-auto'>
-        {errorMessage && 
-          <p className='text-gray-600 dark:text-white'>
-          {errorMessage}
-        </p>
-        }
-      </div>
-      <Microphone micFunction={stt} activeMic={activeMic}/>
-      <textarea className="text-gray-900 dark:text-white
-      bg-gray-100 dark:bg-gray-700 resize-none border-md rounded-lg
-      lg:w-1/2 w-10/12 h-32 px-6 pt-2"
-        placeholder="input..."
-        value={input}
-        onChange={ev => setInput(ev.target.value)}
-      />
-      <button className="bg-blue-500 hover:bg-blue-400 
-      text-gray-600 dark:text-white font-bold py-2 px-4 border-b-4 
-      border-blue-700 hover:border-blue-500 rounded" disabled={input.length < 2}
-        hidden={loading}
-        onClick={() => bundleRequests()}
-      >
-        Analyze
-      </button>
-      {/* <button onClick={() => testknapp()}>testknapp</button>   */}
-      {!loading ?
-        <div className='flex flex-col gap-4 justify-center text-center'>
-          {sentiment && <h2 className='text-2xl text-gray-900 dark:text-white'>
-            Sentiment is <span className={colorSentiment()}>{sentiment}</span>
-          </h2>}
-          {keyPhrases.length > 0 &&
-            <div>
-              <h2 className='text-2xl text-gray-900 dark:text-white mb-2'>Key phrases:</h2>
-              <p className='text-gray-900 dark:text-white'>{keyPhrases.join(' | ')}</p>
-            </div>
-          }
-          {translations.length > 0 &&
-            <div className="">
-              <h2 className='text-2xl text-gray-900 dark:text-white mb-2'>Translations:</h2>
-              {translations.map((l, i) => (
-                <p className='text-gray-900 dark:text-white text-justify ml-2' key={i}><b>{l.to}</b>: {l.text}</p>
-              ))}
-            </div>
-          }
-        </div>
-        :
-        <div
-          className="bg-gray-600 dark:bg-white flex p-6 rounded-full 
-          justify-center items-center animate-ping mt-12"
+      <div className='container mx-auto pt-32 lg:pt-96 gap-6 flex flex-col justify-center items-center'>
+        <Microphone micFunction={stt} activeMic={activeMic}/>
+        <textarea className="text-gray-900 dark:text-white
+        bg-gray-100 dark:bg-gray-700 resize-none border-md rounded-lg
+        lg:w-1/2 w-10/12 h-32 px-6 pt-2"
+          placeholder="input..."
+          value={input}
+          onChange={ev => setInput(ev.target.value)}
         />
-      }
-      {/* <Tabs 
-        output={{
-          sentiment,
-          keyPhrases, 
-          translations
-        }}
-      /> */}
-
-
+        <button className="bg-blue-500 hover:bg-blue-400 
+        text-gray-600 dark:text-white font-bold py-2 px-4 border-b-4 
+        border-blue-700 hover:border-blue-500 rounded" disabled={input.length < 2}
+          hidden={loading}
+          onClick={() => bundleRequests()}
+        >
+          Analyze
+        </button>
+        {/* <button onClick={() => testknapp()}>testknapp</button>   */}
+        {!loading ?
+          <div className='flex flex-col text-center px-5'>
+            {sentiment && <h2 className='text-2xl text-gray-900 dark:text-white'>
+              Sentiment is <span className={colorSentiment()}>{sentiment}</span>
+            </h2>}
+            {keyPhrases.length > 0 &&
+              <div>
+                <h2 className='text-2xl text-gray-900 dark:text-white mb-2'>Key phrases:</h2>
+                <p className='text-gray-900 dark:text-white'>{keyPhrases.join(' | ')}</p>
+              </div>
+            }
+            {translations.length > 0 &&
+              <div className="">
+                <h2 className='text-2xl text-gray-900 dark:text-white mb-2'>Translations:</h2>
+                {translations.map((l, i) => (
+                  <p className='text-gray-900 dark:text-white text-justify ml-2' key={i}><b>{l.to}</b>: {l.text}</p>
+                ))}
+              </div>
+            }
+          </div>
+          :
+          <div
+            className="bg-gray-600 dark:bg-white flex p-6 rounded-full 
+            justify-center items-center animate-ping mt-12"
+          />
+        }
+        {/* <Tabs 
+          output={{
+            sentiment,
+            keyPhrases, 
+            translations
+          }}
+        /> */}
+      </div>
     </div>
   )
 }
