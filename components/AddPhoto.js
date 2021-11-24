@@ -21,45 +21,44 @@ export default function MyModal({ setLoading, setResultImage, text, storage }) {
     setIsOpen(true)
   }
 
-  const capture = useCallback(
-    async () => {
+  const capture = async () => {
 
-      // setLoading(true)
-    
-      const fullString = webcamRef.current.getScreenshot()
+    // setLoading(true)
+  
+    const fullString = webcamRef.current.getScreenshot()
 
-      const dataString = fullString.split(',')[1]
+    const dataString = fullString.split(',')[1]
 
-      if (storage) {
-        // console.log("hallooooo")
-        const res = await axios.post('/api/uploadPicture', { dataString })
-        console.log(res.data)
+    if (storage) {
+      // console.log("hallooooo")
+      const res = await axios.post('/api/uploadPicture', { dataString })
+      console.log(res.data)
 
-      } else {
+    } else {
 
-        try {
-          const getImages = await axios.get('/api/uploadPicture')
+      try {
+        const getImages = await axios.get('/api/uploadPicture')
 
-          const images = getImages.data
+        const images = getImages.data
 
-          const res = await axios.post('/api/face', {
-              capture: dataString,
-              images: images
-          })
-          
-          setResultImage(res.data)
-          
-          // console.log("?????")
-
-        } catch(error) {
-          alert(error.response.data)
-        }
+        const res = await axios.post('/api/face', {
+            capture: dataString,
+            images: images
+        })
         
-      }
+        setResultImage(res.data)
+        
+        // console.log("?????")
 
-    
-      setLoading(false)
-    
+      } catch(error) {
+        alert(error.response.data)
+      }
+      
+    }
+
+  
+    setLoading(false)
+  
     
     
     // const a = document.createElement('a')
@@ -72,9 +71,9 @@ export default function MyModal({ setLoading, setResultImage, text, storage }) {
     //     dataString
     // })
     
-    },
-    [webcamRef]
-);
+  }
+    
+  
 
   return (
     <>
@@ -132,15 +131,15 @@ export default function MyModal({ setLoading, setResultImage, text, storage }) {
                 </Dialog.Title> */}
                 <div className="mt-2">
                     <Webcam
-                        audio={false}
-                        // height={1920}
+                        // audio={false}
+                        // // height={1920}
                         ref={webcamRef}
-                        screenshotFormat="image/jpeg"
-                        screenshotQuality={1}
-                        // forceScreenshotSourceSize={true}
-                        // width={1080}
-                        videoConstraints={videoConstraints}
+                        // screenshotFormat="image/jpeg"
+                        // screenshotQuality={1}
+                        // // forceScreenshotSourceSize={true}
+                        // // width={1080}
                         // videoConstraints={videoConstraints}
+
                     />
                 </div>
 

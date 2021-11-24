@@ -50,17 +50,18 @@ export default async function handler(req, res) {
             // console.log(process.env.ENDPOINT, process.env.STORAGE_ACCOUNT, process.env.KEY2, image.name)
             let imageURL = `https://${process.env.STORAGE_ACCOUNT}.blob.core.windows.net/faces/${image.name}`
             
-            let x = await axios.post(`${process.env.ENDPOINT}face/v1.0/detect?detectionModel=detection_03&returnFaceId=true&returnFaceLandmarks=false`,
+            let detected = await axios.post(`${process.env.ENDPOINT}face/v1.0/detect?detectionModel=detection_03&returnFaceId=true&returnFaceLandmarks=false`,
             { 
                 url: imageURL
             }, {
                 headers: { 'content-type': 'application/json', 'Ocp-Apim-Subscription-Key': process.env.KEY2 }
             })
-            console.log(x)
+            console.log(detected)
 
             await sleep(1000)
-            
-            return {imageURL, faceId: x.data[0].faceId}
+
+            if (detected.data[0]?.faceId)
+                return {imageURL, faceId: detected.data[0]?.faceId}
         }))
 
         // console.log(targetFaces)
@@ -72,8 +73,8 @@ export default async function handler(req, res) {
 
         // console.log(sourceFace)
         const sourceFaceId = sourceFace.data[0]?.faceId
-        if (!sourceFaceId)
-            return res.status(400).json('found no face in submitted image')
+        if (!sourceFaceId || sourceFace.data.length > 1)
+            return res.status(400).json('found no/too many faces in submitted image. Make sure there is only one face in the image you capture')
 
         const match = await axios.post(`${process.env.ENDPOINT}face/v1.0/findsimilars`, {
             faceId: sourceFaceId,

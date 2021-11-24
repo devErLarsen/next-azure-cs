@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { ResultReason } from 'microsoft-cognitiveservices-speech-sdk'
 import React, { useEffect, useState } from 'react'
+import Head from 'next/head'
 import Microphone from '../components/Microphone'
 import Nav from "../components/Nav"
 import getToken from '../utils/getToken'
@@ -109,6 +110,10 @@ export default function Home() {
 
   return (
     <div className="bg-white dark:bg-gray-800 min-h-screen">
+      <Head>
+          <title>Text-analytics/Translate</title>
+          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Nav />
       <div className='container mx-auto pt-32 lg:pt-96 gap-6 flex flex-col justify-center items-center'>
         <Microphone micFunction={stt} activeMic={activeMic}/>

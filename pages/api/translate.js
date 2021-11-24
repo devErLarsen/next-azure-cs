@@ -5,8 +5,6 @@ export default async function handler(req, res) {
 
     try {
         const azureRes = await axios(`${process.env.API}/translate`, {
-            // baseURL: process.env.API,
-            // url: '/translate',
             method: 'post',
             headers: {
                 'Ocp-Apim-Subscription-Key': process.env.KEY2,

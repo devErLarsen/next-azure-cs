@@ -2,6 +2,8 @@ import Nav from "../components/Nav";
 import AddPhoto from '../components/AddPhoto'
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
+import Image from 'next/image'
+import Head from 'next/head'
 
 
 export default function Face() {
@@ -15,6 +17,10 @@ export default function Face() {
     return (
         <div className="bg-white dark:bg-gray-800 h-screen 
         flex justify-center items-center flex-col gap-7">
+            <Head>
+                <title>Face Api</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            </Head>
             <Nav />
             {loading ? 
                 <div
@@ -54,10 +60,10 @@ export default function Face() {
                             </span>
                             <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden align-middle transition-all transform bg-white dark:bg-gray-700 shadow-xl rounded-2xl">
                                 <Dialog.Title className="mb-2 text-gray-600 dark:text-white">Result</Dialog.Title>
-                                <img src={resultImage} alt="recognized face" />
+                                <Image src={resultImage} width={680} height={400} layout="responsive" alt="recognized face" />
                                 <button 
                                     onClick={() => setResultImage(null)}
-                                    className=" flex flex-start p-2 border-none bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-300"    
+                                    className="mt-2 flex flex-start p-2 border-none bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-300"    
                                 >
                                     Close
                                 </button>

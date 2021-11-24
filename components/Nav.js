@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { useTheme } from "../context/ThemeContext"
 import { Menu } from '@headlessui/react'
+import { useTheme } from '../hook/useTheme'
 
 
 export default function Nav() {
