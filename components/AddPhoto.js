@@ -131,13 +131,11 @@ export default function MyModal({ setLoading, setResultImage, text, storage }) {
                 </Dialog.Title> */}
                 <div className="mt-2">
                     <Webcam
-                        // audio={false}
-                        // // height={1920}
+                        audio={false}
                         ref={webcamRef}
-                        // screenshotFormat="image/jpeg"
-                        // screenshotQuality={1}
-                        // // forceScreenshotSourceSize={true}
-                        // // width={1080}
+                        screenshotFormat="image/jpeg"
+                        screenshotQuality={1}
+                        forceScreenshotSourceSize={true}
                         // videoConstraints={videoConstraints}
 
                     />

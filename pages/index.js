@@ -115,7 +115,7 @@ export default function Home() {
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Nav />
-      <div className='container mx-auto pt-32 lg:pt-96 gap-6 flex flex-col justify-center items-center'>
+      <div className='container mx-auto pt-32 lg:pt-56 gap-6 flex flex-col justify-center items-center'>
         <Microphone micFunction={stt} activeMic={activeMic}/>
         <textarea className="text-gray-900 dark:text-white
         bg-gray-100 dark:bg-gray-700 resize-none border-md rounded-lg
@@ -133,7 +133,7 @@ export default function Home() {
           Analyze
         </button>
         {!loading ?
-          <div className='flex flex-col text-center px-5'>
+          <div className='flex flex-col text-center p-5 rounded shadow-md max-w-lg mb-6'>
             {sentiment && <h2 className='text-2xl text-gray-900 dark:text-white'>
               Sentiment is <span className={colorSentiment()}>{sentiment}</span>
             </h2>}
