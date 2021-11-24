@@ -18,7 +18,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [activeMic, setActiveMic] = useState(false)
 
-  const [errorMessage, setErrorMessage] = useState("")
+  // const [errorMessage, setErrorMessage] = useState("")
 
   // useEffect(async () => {
   //   const tokenRes = await getToken()
@@ -127,7 +127,6 @@ export default function Home() {
         >
           Analyze
         </button>
-        {/* <button onClick={() => testknapp()}>testknapp</button>   */}
         {!loading ?
           <div className='flex flex-col text-center px-5'>
             {sentiment && <h2 className='text-2xl text-gray-900 dark:text-white'>
@@ -154,13 +153,6 @@ export default function Home() {
             justify-center items-center animate-ping mt-12"
           />
         }
-        {/* <Tabs 
-          output={{
-            sentiment,
-            keyPhrases, 
-            translations
-          }}
-        /> */}
       </div>
     </div>
   )

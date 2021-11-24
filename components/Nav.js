@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { useTheme } from "../context/ThemeContext"
-import Auth from './Auth'
 import { Menu } from '@headlessui/react'
 
 
@@ -27,10 +26,8 @@ export default function Nav() {
                         <a className="text-2xl text-gray-600 dark:text-white hover:opacity-50">Face</a>
                     </Link>
                 </div>
-                <Auth />
             </div>
             <div className="md:hidden flex items-center">
-                <Auth />
                 <Menu as='div' className='relative inline-block'>
                     <Menu.Button className="ml-3 mt-1.5 text-blue-500">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
