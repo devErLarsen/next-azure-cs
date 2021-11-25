@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['erlarsen.blob.core.windows.net'],
+    domains: [`${process.env.STORAGE_ACCOUNT}.blob.core.windows.net`],
   },
 }
