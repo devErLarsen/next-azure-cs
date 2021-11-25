@@ -1,7 +1,7 @@
 import axios from "axios"
 
 
-export default async function handler(req, res) {
+export default async (req, res) => {
 
     const location = process.env.LOCATION
 
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
             // url: '/translate',
             method: 'post',
             headers: {
-                'Ocp-Apim-Subscription-Key': process.env.KEY2,
+                'Ocp-Apim-Subscription-Key': process.env.KEY,
                 // 'Ocp-Apim-Subscription-Region': process.env.LOCATION,
                 'Content-type': 'application/x-www-form-urlencoded',
                 // 'X-ClientTraceId': uuidv4().toString()

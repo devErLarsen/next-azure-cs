@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
-export default async function handler(req, res) {
+export default async (req, res) => {
 
     try {
         const azureRes = await axios(`${process.env.API}/translate`, {
             method: 'post',
             headers: {
-                'Ocp-Apim-Subscription-Key': process.env.KEY2,
+                'Ocp-Apim-Subscription-Key': process.env.KEY,
                 'Ocp-Apim-Subscription-Region': process.env.LOCATION,
                 'Content-type': 'application/json',
                 'X-ClientTraceId': uuidv4().toString()
@@ -23,20 +23,6 @@ export default async function handler(req, res) {
         res.status(200).json(azureRes.data)
         // console.log(JSON.stringify(azureRes.data, null, 4));
     } catch (err) {
-        console.log(err)
+        res.status(err.response.status).json(err.response.data)
     }
-
-
-    
-
-    
-
-
-    // console.log(req.body)
-    // console.log(req.body)
-    // console.log(req.method)
-    // console.log(req.headers)
-    // console.log('++++', JSON.parse(req.body))
-
-    // res.status(200).json({ name: 'John Doe'})
 }

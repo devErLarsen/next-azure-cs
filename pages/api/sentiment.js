@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 
-export default async function handler(req, res) {
+export default async (req, res) => {
     // const s = await sentimentAnalysis(req.body.text)
     // res.status(200).json(s)
 
@@ -20,12 +20,12 @@ export default async function handler(req, res) {
 
     try {
         const azureResponse = await axios.post(
-            `${process.env.ENDPOINT}text/analytics/v3.1/sentiment`,
+            `${process.env.ENDPOINT}/text/analytics/v3.1/sentiment`,
             data, 
             {
                 headers: {
                     'content-type': 'application/json',
-                    'Ocp-Apim-Subscription-Key': process.env.KEY2
+                    'Ocp-Apim-Subscription-Key': process.env.KEY
                 }
             }
         )

@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 // url: "https://northeurope.api.cognitive.microsoft.com/text/analytics/v3.1/languages?"
-export default async function handler(req, res) {
+export default async (req, res) => {
 
     // const l = await languageDetection(req.body.text)
     // console.log(l)
@@ -22,10 +22,10 @@ export default async function handler(req, res) {
 
 
     try {
-        const azureResponse = await axios.post(`${process.env.ENDPOINT}text/analytics/v3.1/languages`, data, {
+        const azureResponse = await axios.post(`${process.env.ENDPOINT}/text/analytics/v3.1/languages`, data, {
             headers: {
                 'content-type': 'application/json',
-                'Ocp-Apim-Subscription-Key': process.env.KEY2
+                'Ocp-Apim-Subscription-Key': process.env.KEY
             }
         })
         

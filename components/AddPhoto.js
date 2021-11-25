@@ -30,16 +30,21 @@ export default function MyModal({ setLoading, setResultImage, text, storage }) {
     const dataString = fullString.split(',')[1]
 
     if (storage) {
-      // console.log("hallooooo")
-      const res = await axios.post('/api/uploadPicture', { dataString })
+      const res = await axios.post('/api/storage', { dataString })
       console.log(res.data)
 
     } else {
 
       try {
-        const getImages = await axios.get('/api/uploadPicture')
+        const getImages = await axios.get('/api/storage')
 
         const images = getImages.data
+
+        if(images.length < 1) {
+          setLoading(false)
+          alert('There are no photos in storage! Cannot perform operation!')
+          return
+        }
 
         const res = await axios.post('/api/face', {
             capture: dataString,
@@ -47,8 +52,6 @@ export default function MyModal({ setLoading, setResultImage, text, storage }) {
         })
         
         setResultImage(res.data)
-        
-        // console.log("?????")
 
       } catch(error) {
         alert(error.response.data)
@@ -58,18 +61,6 @@ export default function MyModal({ setLoading, setResultImage, text, storage }) {
 
   
     setLoading(false)
-  
-    
-    
-    // const a = document.createElement('a')
-    // a.href = dataString
-    // a.download = new Date().toUTCString()
-    // a.click()
-
-
-    // const res = await axios.post('/api/uploadPicture', {
-    //     dataString
-    // })
     
   }
     
@@ -136,7 +127,7 @@ export default function MyModal({ setLoading, setResultImage, text, storage }) {
                         screenshotFormat="image/jpeg"
                         screenshotQuality={1}
                         forceScreenshotSourceSize={true}
-                        // videoConstraints={videoConstraints}
+                        // videoConstraints={videoConstraints} // breaks on phone browser
 
                     />
                 </div>

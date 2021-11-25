@@ -18,7 +18,7 @@ export const config = {
 
 
 
-const credentials = new CognitiveServicesCredentials(process.env.KEY2);
+const credentials = new CognitiveServicesCredentials(process.env.KEY);
 const client = new FaceClient(credentials, process.env.ENDPOINT);
 
 
@@ -31,7 +31,7 @@ const personsWithPicture = {
 
 // const source = 'https://gfx.nrk.no/12b-5Fm2CsLZ53ax_AhAqAbkX8Yi3UlScDrlE_NTPRVg'
 
-export default async function handler(req, res) {
+export default async (req, res) => {
     
     if(req.method === 'POST') {
 
@@ -39,24 +39,20 @@ export default async function handler(req, res) {
         // THIS WORKS!!!!!'
         const { capture, images } = req.body
         const buf = Buffer.from(capture, 'base64')
-        // console.log(buf)
-        // console.log(images)
-        // console.log(images[0].name)
-        // console.log(`${process.env.ENDPOINT}face/v1.0/detect?detectionModel=detection_03&returnFaceId=true&returnFaceLandmarks=false`)
+    
 
 
         // images from blob storage
         const targetFaces = await Promise.all(images.map(async image => {
-            // console.log(process.env.ENDPOINT, process.env.STORAGE_ACCOUNT, process.env.KEY2, image.name)
-            let imageURL = `https://${process.env.STORAGE_ACCOUNT}.blob.core.windows.net/faces/${image.name}`
+            // console.log(process.env.ENDPOINT, process.env.STORAGE_ACCOUNT, process.env.KEY, image.name)
+            let imageURL = `https://${process.env.STORAGE_ACCOUNT}.blob.core.windows.net/${process.env.BLOB_CONTAINER}/${image.name}`
             
-            let detected = await axios.post(`${process.env.ENDPOINT}face/v1.0/detect?detectionModel=detection_03&returnFaceId=true&returnFaceLandmarks=false`,
+            let detected = await axios.post(`${process.env.ENDPOINT}/face/v1.0/detect?detectionModel=detection_03&returnFaceId=true&returnFaceLandmarks=false`,
             { 
                 url: imageURL
             }, {
-                headers: { 'content-type': 'application/json', 'Ocp-Apim-Subscription-Key': process.env.KEY2 }
+                headers: { 'content-type': 'application/json', 'Ocp-Apim-Subscription-Key': process.env.KEY }
             })
-            console.log(detected)
 
             await sleep(1000)
 
@@ -67,8 +63,8 @@ export default async function handler(req, res) {
         // console.log(targetFaces)
 
         // current image from webcam
-        const sourceFace = await axios.post(`${process.env.ENDPOINT}face/v1.0/detect?detectionModel=detection_03&returnFaceId=true&returnFaceLandmarks=false`, buf, {
-            headers: { 'content-type': 'application/octet-stream', 'Ocp-Apim-Subscription-Key': process.env.KEY2 }
+        const sourceFace = await axios.post(`${process.env.ENDPOINT}/face/v1.0/detect?detectionModel=detection_03&returnFaceId=true&returnFaceLandmarks=false`, buf, {
+            headers: { 'content-type': 'application/octet-stream', 'Ocp-Apim-Subscription-Key': process.env.KEY }
         })
 
         // console.log(sourceFace)
@@ -76,21 +72,23 @@ export default async function handler(req, res) {
         if (!sourceFaceId || sourceFace.data.length > 1)
             return res.status(400).json('found no/too many faces in submitted image. Make sure there is only one face in the image you capture')
 
-        const match = await axios.post(`${process.env.ENDPOINT}face/v1.0/findsimilars`, {
+        const match = await axios.post(`${process.env.ENDPOINT}/face/v1.0/findsimilars`, {
             faceId: sourceFaceId,
             faceIds: targetFaces.map(f => f.faceId),
             maxNumOfCandidatesReturned: 10,
             mode: 'matchPerson'
         },{
-            headers: { 'content-type': 'application/json', 'Ocp-Apim-Subscription-Key': process.env.KEY2 }
+            headers: { 'content-type': 'application/json', 'Ocp-Apim-Subscription-Key': process.env.KEY }
         })
 
         // console.log(match)
-        const matchingPersonId = match.data[0].faceId
+        const matchingPersonId = match.data[0]?.faceId
+        if(matchingPersonId === undefined) {
+            return res.status(404).json('No match')
+        }
 
         const matchingPersonURL = targetFaces.filter(p => p.faceId === matchingPersonId)[0].imageURL
 
-        console.log(matchingPersonURL)
         res.status(200).json(matchingPersonURL)
         
        
@@ -169,7 +167,7 @@ const DetectFaceRecognize = async (body) => {
 
  // const targetImages = await axios.get(`https://${process.env.STORAGE_ACCOUNT}.blob.core.windows.net/${process.env.BLOB_CONTAINER}?restype=container&comp=list`, {
         //     headers: {
-        //         'Ocp-Apim-Subscription-Key': process.env.KEY2
+        //         'Ocp-Apim-Subscription-Key': process.env.KEY
         //     }
         // })
         // res.status(200).json(targetImages.data)

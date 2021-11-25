@@ -17,7 +17,7 @@ const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 }
 
 const containerName = 'erlarsen'
 const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.BLOB_CONNECTION_STRING);
-const containerClient = blobServiceClient.getContainerClient('faces');
+const containerClient = blobServiceClient.getContainerClient(process.env.BLOB_CONTAINER);
 
 // export const config = {
 //     api: {
@@ -32,7 +32,7 @@ export const config = {
     }
 };
 
-export default async function handler(req, res) {
+export default async (req, res) => {
     if (req.method === 'POST') {
 
         const { dataString } = req.body
@@ -77,10 +77,14 @@ export default async function handler(req, res) {
 
     } else {
         // url example https://erlarsen.blob.core.windows.net/faces/2021-11-15T08:51:13.785Z-301685a0-45f1-11ec-b5cb-7701fe06a285.jpg
-        const faces = []
-        for await (const blob of containerClient.listBlobsFlat()) {
-            faces.push(blob)
+        try {
+            const faces = []
+            for await (const blob of containerClient.listBlobsFlat()) {
+                faces.push(blob)
+            }
+            res.status(200).json(faces)
+        } catch (error) {
+            res.status(error.response.status).json(error.response.data)
         }
-        res.status(200).json(faces)
     }
 }
