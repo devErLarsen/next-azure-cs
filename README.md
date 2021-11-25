@@ -4,6 +4,11 @@ In this project I have used the following technologies: <br>
 - **Next js** (React js framework)
 - **Tailwind css** for styling
 
+<h3>Functionality:</h3>
+The web app can help you translate english to german and french, perform some text analytics like key phrases extraction and sentiment analysis.
+A user can also use speech to text, to populate the text-box with text.
+The app also lets you upload a picture of yourself to the azure storage account, and from the pool of images that have been uploaded, a user can test if their face is in the storage with facial recognition.
+
 <h2>Setup</h2>
 
 You ned an azure subscription to run this application.
