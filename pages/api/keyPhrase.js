@@ -2,9 +2,7 @@ import axios from "axios"
 
 
 
-export default async (req, res) => {
-    // const kp = await keyPhraseExtraction(req.body.text)
-    // res.status(200).json(kp)
+export default async function handler(req, res) {
     const { text } = req.body
 
     const data = {

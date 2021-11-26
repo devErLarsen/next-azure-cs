@@ -1,7 +1,7 @@
 import axios from "axios"
 
 
-export default async (req, res) => {
+export default async function handler(req, res) {
 
     const location = process.env.LOCATION
 

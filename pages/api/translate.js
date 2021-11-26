@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
-export default async (req, res) => {
+export default async function handler(req, res){
 
     try {
         const azureRes = await axios(`${process.env.API}/translate`, {

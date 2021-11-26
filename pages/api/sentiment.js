@@ -2,10 +2,7 @@ import axios from "axios";
 
 
 
-export default async (req, res) => {
-    // const s = await sentimentAnalysis(req.body.text)
-    // res.status(200).json(s)
-
+export default async function handler(req, res) {
     const { text } = req.body
 
     const data = {

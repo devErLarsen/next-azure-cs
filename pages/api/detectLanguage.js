@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 // url: "https://northeurope.api.cognitive.microsoft.com/text/analytics/v3.1/languages?"
-export default async (req, res) => {
+export default async function handler(req, res) {
 
     // const l = await languageDetection(req.body.text)
     // console.log(l)
