@@ -29,13 +29,10 @@ export default function MyModal({ setLoading, setResultImage, text, storage }) {
 
     const dataString = fullString.split(',')[1]
 
-    if (storage) {
-      const res = await axios.post('/api/storage', { dataString })
-      console.log(res.data)
-
-    } else {
-
-      try {
+    try {
+      if(storage) {
+        await axios.post('/api/storage', { dataString })
+      } else {
         const getImages = await axios.get('/api/storage')
 
         const images = getImages.data
@@ -46,22 +43,17 @@ export default function MyModal({ setLoading, setResultImage, text, storage }) {
           return
         }
 
-        const res = await axios.post('/api/face', {
+        const faceRes = await axios.post('/api/face', {
             capture: dataString,
             images: images
         })
         
-        setResultImage(res.data)
-
-      } catch(error) {
-        alert(error.response.data)
+        setResultImage(faceRes.data)
       }
-      
+    } catch(error) {
+      alert(error.response.data)
     }
-
-  
     setLoading(false)
-    
   }
     
   

@@ -10,6 +10,7 @@ import formidable from 'formidable'
 import multer from "multer";
 // const getStream = require('into-stream')
 import intoStream from "into-stream";
+import axios from "axios";
 const inMemoryStorage = multer.memoryStorage()
 const uploadStrategy = multer({ storage: inMemoryStorage }).single('image')
 const ONE_MEGABYTE = 1024 * 1024
@@ -37,9 +38,14 @@ export default async (req, res) => {
 
         const { dataString } = req.body
         const buf = Buffer.from(dataString, 'base64')
-        console.log(buf)
+
+        const facecheck = await axios.post(`${process.env.ENDPOINT}/face/v1.0/detect?detectionModel=detection_03&returnFaceId=true&returnFaceLandmarks=false`, buf, {
+            headers: { 'content-type': 'application/octet-stream', 'Ocp-Apim-Subscription-Key': process.env.KEY }
+        })
+        if (!facecheck || facecheck.data.length > 1)
+            return res.status(400).json('found no/too many faces in submitted image. Make sure there is only one face in the image you capture')
+
         const stream = intoStream(buf)
-        // console.log(dataString)
 
         const blobName = new Date().toISOString() + '-' + uuidv1() + '.jpg'
         const blockBlobClient = containerClient.getBlockBlobClient(blobName);

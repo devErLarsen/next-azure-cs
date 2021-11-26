@@ -35,9 +35,9 @@ export default async (req, res) => {
     
     if(req.method === 'POST') {
 
-
-        // THIS WORKS!!!!!'
+        // destructure request body
         const { capture, images } = req.body
+        // image string to buffer
         const buf = Buffer.from(capture, 'base64')
     
 
@@ -163,11 +163,3 @@ const DetectFaceRecognize = async (body) => {
 }
 
 
-
-
- // const targetImages = await axios.get(`https://${process.env.STORAGE_ACCOUNT}.blob.core.windows.net/${process.env.BLOB_CONTAINER}?restype=container&comp=list`, {
-        //     headers: {
-        //         'Ocp-Apim-Subscription-Key': process.env.KEY
-        //     }
-        // })
-        // res.status(200).json(targetImages.data)
