@@ -8,8 +8,9 @@ In this project I have used the following technologies: <br>
 The web app can help you translate english to german and french, perform some text analytics like key phrases extraction and sentiment analysis.
 A user can also use speech to text, to populate the text-box with text.
 The app also lets you upload a picture of yourself to the azure storage account, and from the pool of images that have been uploaded, a user can test if their face is in the storage with facial recognition.
+<br/><br/>
 
-![](https://github.com/devErLarsen/next-azure-cs/blob/main/showcase/2022-01-22%2022-09-12.gif)
+![demo](https://github.com/devErLarsen/next-azure-cs/blob/main/showcase/2022-01-22%2022-09-12.gif)
 
 <h2>Setup</h2>
 
