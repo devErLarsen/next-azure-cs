@@ -45,7 +45,7 @@ export default async function handler(req, res) {
         try {
             const faces = []
             for await (const blob of containerClient.listBlobsFlat()) {
-                faces.push(blob)
+                faces.push(`https://${process.env.STORAGE_ACCOUNT}.blob.core.windows.net/${process.env.BLOB_CONTAINER}/${blob.name}`)
             }
             res.status(200).json(faces)
         } catch (error) {

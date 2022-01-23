@@ -1,5 +1,6 @@
 import Nav from "../components/Nav";
 import AddPhoto from '../components/AddPhoto'
+import Link from 'next/link'
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import Image from 'next/image'
@@ -10,10 +11,7 @@ export default function Face() {
 
     const [resultImage, setResultImage] = useState(null)
     const [loading, setLoading] = useState(false)
-
-    // const [isOpen, setIsOpen] = useState(false)
         
-
     return (
         <div className="bg-white dark:bg-gray-800 h-screen 
         flex justify-center items-center flex-col gap-7">
@@ -27,23 +25,7 @@ export default function Face() {
                     className="bg-gray-600 dark:bg-white flex space-x-2 p-6 rounded-full 
                     justify-center items-center animate-ping mt-10"
                 /> 
-            : 
-                // [resultImage ? 
-                //     <div key={'imageResult'} className="flex flex-col gap-3">
-                //         <img src={resultImage} alt="recognized face" />
-                //         <button 
-                //             className="p-2 border-none bg-blue-500 text-white rounded-md text-xl cursor-pointer"
-                //             onClick={() => setResultImage(null)}
-                //         >
-                //             Clear Result
-                //         </button>
-                //     </div>
-                //     :
-                //     <div key={'addphoto'} className="flex flex-row gap-3">
-                //         <AddPhoto setLoading={setLoading} setResultImage={setResultImage} storage={true} text="Add Reference Photo"/>
-                //         <AddPhoto setLoading={setLoading} setResultImage={setResultImage} storage={false} text="Photo to Face API"/>
-                //     </div>
-                // ]
+            :
                 <>
                     <Dialog 
                         open={Boolean(resultImage)} onClose={() => setResultImage(null)}
@@ -70,6 +52,9 @@ export default function Face() {
                             </div>
                         </div>
                     </Dialog>
+                    <Link className='' href='/facelist'>
+                        <a className="text-2xl text-gray-600 dark:text-white hover:opacity-50">FaceList</a>
+                    </Link>
                     <div className="flex flex-row gap-5">
                         <AddPhoto setLoading={setLoading} setResultImage={setResultImage} storage={true} text="Add Reference Photo"/>
                         <AddPhoto setLoading={setLoading} setResultImage={setResultImage} storage={false} text="Photo to Face API"/>

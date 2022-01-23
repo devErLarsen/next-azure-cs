@@ -8,7 +8,6 @@ export default function Nav() {
     const [colorTheme, setTheme] = useTheme()
     return (
         <div className="absolute top-0 h-16 w-full flex items-center justify-between p-5 border-b-2 border-blue-500">
-            {/* <User /> */}
             <span onClick={() => setTheme(colorTheme)} className="w-10 h-10 bg-blue-500 flex rounded-full 
             cursor-pointer text-white items-center justify-center shadow-xl">
                 {colorTheme === 'light' ? 
@@ -18,11 +17,11 @@ export default function Nav() {
                 }
             </span>
             <div className="hidden md:flex">
-                <div className='flex gap-4'> {/*hidden md:flex */}
+                <div className='flex gap-4'> 
                     <Link href='/'>
                         <a className="text-2xl text-gray-600 dark:text-white hover:opacity-50">Language</a>
                     </Link>
-                    <Link className='' href='/Face'>
+                    <Link className='' href='/face'>
                         <a className="text-2xl text-gray-600 dark:text-white hover:opacity-50">Face</a>
                     </Link>
                 </div>
@@ -34,18 +33,14 @@ export default function Nav() {
                     </Menu.Button>
                     <Menu.Items className='absolute w-32 right-0 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                         <Menu.Item>
-                        {({ active }) => (
                             <Link href='/'>
-                                <a className={`${active ? 'bg-blue-500' : 'text-gray-900'} group flex rounded-md items-center w-full px-2 py-2 text-sm`}>Language</a>
+                                <a className="group flex rounded-md items-center w-full px-2 py-2 text-sm hover:bg-blue-500">Language</a>
                             </Link> 
-                        )}
                         </Menu.Item>
                         <Menu.Item>
-                        {({ active }) => (
-                            <Link className='' href='/Face'>
-                                <a className={`${active ? 'bg-blue-500' : 'text-gray-900'} group flex rounded-md items-center w-full px-2 py-2 text-sm`}>Face</a>
+                            <Link className='' href='/face'>
+                                <a className="group flex rounded-md items-center w-full px-2 py-2 text-sm hover:bg-blue-500">Face</a>
                             </Link>
-                        )}
                         </Menu.Item>
                     </Menu.Items>
                 </Menu>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Microphone from '../components/Microphone'
 import Nav from "../components/Nav"
+import TextResultBox from '../components/TextResultBox'
 import getToken from '../utils/getToken'
 const speechsdk = require('microsoft-cognitiveservices-speech-sdk')
 
@@ -18,14 +19,6 @@ export default function Home() {
 
   const [loading, setLoading] = useState(false)
   const [activeMic, setActiveMic] = useState(false)
-
-  // const [errorMessage, setErrorMessage] = useState("")
-
-  // useEffect(async () => {
-  //   const tokenRes = await getToken()
-  //   if(tokenRes.authToken === null)
-  //     setErrorMessage("Something went wrong when trying to fetch authorization token")
-  // }, [])
 
   // request check if input language is English, otherwise alert user that only english is accepted.
   const checkLanguage = async () => {
@@ -79,14 +72,6 @@ export default function Home() {
     }
   }
 
-  const colorSentiment = () => {
-    if(sentiment === 'positive')
-      return 'text-green-600'
-    else if(sentiment === 'negative')
-      return 'text-red-600'
-    return 'text-yellow-200'
-  }
-
   
 
   const stt = async () => {
@@ -133,25 +118,7 @@ export default function Home() {
           Analyze
         </button>
         {!loading ?
-          <div className='flex flex-col text-center p-5 rounded shadow-md max-w-lg mb-6'>
-            {sentiment && <h2 className='text-2xl text-gray-900 dark:text-white'>
-              Sentiment is <span className={colorSentiment()}>{sentiment}</span>
-            </h2>}
-            {keyPhrases.length > 0 &&
-              <div>
-                <h2 className='text-2xl text-gray-900 dark:text-white mb-2'>Key phrases:</h2>
-                <p className='text-gray-900 dark:text-white'>{keyPhrases.join(' | ')}</p>
-              </div>
-            }
-            {translations.length > 0 &&
-              <div className="">
-                <h2 className='text-2xl text-gray-900 dark:text-white mb-2'>Translations:</h2>
-                {translations.map((l, i) => (
-                  <p className='text-gray-900 dark:text-white text-justify ml-2' key={i}><b>{l.to}</b>: {l.text}</p>
-                ))}
-              </div>
-            }
-          </div>
+          <TextResultBox sentiment={sentiment} keyPhrases={keyPhrases} translations={translations} />
           :
           <div
             className="bg-gray-600 dark:bg-white flex p-6 rounded-full 
